@@ -123,7 +123,7 @@ namespace EventsApp.Controllers
             _db.Tickets.Add(ticket);
             await _db.SaveChangesAsync();
 
-            TempData["StatusMessage"] = "Ticket type created.";
+            TempData["StatusMessage"] = "Типът билет е създаден.";
             return RedirectToAction(nameof(Manage), new { id = ev.Id });
         }
 
@@ -176,7 +176,7 @@ namespace EventsApp.Controllers
             if (remaining > input.QuantityTotal)
             {
                 ModelState.AddModelError(nameof(input.QuantityRemaining),
-                    "Remaining cannot exceed total.");
+                    "Оставащите бройки не могат да надвишават общото количество.");
             }
 
             if (!ModelState.IsValid)
@@ -195,7 +195,7 @@ namespace EventsApp.Controllers
             ticket.IsActive = input.IsActive;
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Ticket type updated.";
+            TempData["StatusMessage"] = "Типът билет е обновен.";
             return RedirectToAction(nameof(Manage), new { id = ticket.EventId });
         }
 
@@ -234,7 +234,7 @@ namespace EventsApp.Controllers
 
             ticket.IsActive = false;
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Ticket type disabled.";
+            TempData["StatusMessage"] = "Типът билет е изключен.";
             return RedirectToAction(nameof(Manage), new { id = ticket.EventId });
         }
 
@@ -254,22 +254,22 @@ namespace EventsApp.Controllers
 
             if (!ticket.IsActive)
             {
-                TempData["StatusMessage"] = "This ticket is no longer available.";
+                TempData["StatusMessage"] = "Този билет вече не е наличен.";
                 return RedirectToAction("Details", "Events", new { id = ticket.EventId });
             }
             if (ticket.QuantityRemaining <= 0)
             {
-                TempData["StatusMessage"] = "Sorry, this ticket is sold out.";
+                TempData["StatusMessage"] = "Този билет е разпродаден.";
                 return RedirectToAction("Details", "Events", new { id = ticket.EventId });
             }
             if (!ticket.Event.IsApproved)
             {
-                TempData["StatusMessage"] = "This event is not approved yet.";
+                TempData["StatusMessage"] = "Събитието още не е одобрено.";
                 return RedirectToAction("Details", "Events", new { id = ticket.EventId });
             }
             if (ticket.Event.StartTime <= DateTime.UtcNow)
             {
-                TempData["StatusMessage"] = "This event has already started.";
+                TempData["StatusMessage"] = "Събитието вече е започнало.";
                 return RedirectToAction("Details", "Events", new { id = ticket.EventId });
             }
 
@@ -294,7 +294,7 @@ namespace EventsApp.Controllers
             _db.UserTickets.Add(userTicket);
             await _db.SaveChangesAsync();
 
-            TempData["StatusMessage"] = "Demo purchase complete — your ticket is ready.";
+            TempData["StatusMessage"] = "Демонстрационната покупка е успешна и билетът е готов.";
             return RedirectToAction(nameof(Details), new { id = userTicket.Id });
         }
 
@@ -388,7 +388,7 @@ namespace EventsApp.Controllers
             if (!ModelState.IsValid)
             {
                 result.NotFound = true;
-                result.Message = "Please paste a QR code value.";
+                result.Message = "Постави стойност на QR код.";
                 ViewBag.Result = result;
                 return View(input);
             }
@@ -407,7 +407,7 @@ namespace EventsApp.Controllers
             if (ut == null)
             {
                 result.NotFound = true;
-                result.Message = "Invalid ticket — no such QR code.";
+                result.Message = "Невалиден билет - няма такъв QR код.";
                 ViewBag.Result = result;
                 return View(input);
             }
@@ -415,7 +415,7 @@ namespace EventsApp.Controllers
             if (!isAdmin && ut.Ticket.Event.OrganizerId != userId)
             {
                 result.NotAllowed = true;
-                result.Message = "You are not the organizer of this event.";
+                result.Message = "Нямаш права да валидираш билет за това събитие.";
                 result.Ticket = ToDetails(ut);
                 ViewBag.Result = result;
                 return View(input);
@@ -424,7 +424,7 @@ namespace EventsApp.Controllers
             if (ut.IsUsed)
             {
                 result.AlreadyUsed = true;
-                result.Message = $"Ticket already used at {ut.UsedAt:yyyy-MM-dd HH:mm}.";
+                result.Message = $"Билетът вече е използван на {ut.UsedAt:dd.MM.yyyy HH:mm}.";
                 result.Ticket = ToDetails(ut);
                 ViewBag.Result = result;
                 return View(input);
@@ -436,7 +436,7 @@ namespace EventsApp.Controllers
             await _db.SaveChangesAsync();
 
             result.Valid = true;
-            result.Message = "Ticket valid — checked in successfully.";
+            result.Message = "Билетът е валиден и беше успешно отбелязан на вход.";
             result.Ticket = ToDetails(ut);
             ViewBag.Result = result;
             return View(new TicketValidationViewModel());

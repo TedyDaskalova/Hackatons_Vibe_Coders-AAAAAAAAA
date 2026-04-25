@@ -1353,3 +1353,645 @@ video.card-img-top-fixed {
         display: none;
     }
 }
+
+.groove-app-page {
+    --groove-paper: #f3ecdf;
+    --groove-card: #fbf7ee;
+    --groove-ink: #241d19;
+    --groove-muted: #6b5f55;
+    --groove-red: #c83a2f;
+    --groove-teal: #2c8d89;
+    --groove-yellow: #f2c94c;
+    color: var(--groove-ink);
+    padding: clamp(1.25rem, 4vw, 3rem) 0 3rem;
+}
+
+.groove-page-hero,
+.groove-page-actions,
+.groove-inline-actions,
+.groove-utility-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.groove-page-hero {
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.75rem;
+}
+
+.groove-page-hero__copy {
+    max-width: 720px;
+}
+
+.groove-page-hero__copy h1,
+.groove-page-section h2,
+.groove-panel-title {
+    margin: 0.85rem 0 0;
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.95;
+}
+
+.groove-page-hero__copy h1,
+.groove-panel-title {
+    font-size: clamp(2.6rem, 7vw, 4.6rem);
+}
+
+.groove-page-hero__copy h1 span,
+.groove-page-section h2 span,
+.groove-panel-title span {
+    background-image: linear-gradient(180deg, transparent 58%, rgba(242, 201, 76, 0.72) 58%);
+    font-style: italic;
+    padding: 0 0.12em;
+}
+
+.groove-page-hero__copy p,
+.groove-page-section p,
+.groove-panel-intro,
+.groove-muted-copy {
+    color: var(--groove-muted);
+    font-family: 'Lora', Georgia, serif;
+    line-height: 1.6;
+}
+
+.groove-page-hero__copy p {
+    margin: 0.9rem 0 0;
+    font-size: 1.04rem;
+}
+
+.groove-page-grid {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.groove-page-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.groove-page-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.groove-page-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.groove-paper-card,
+.groove-table-card,
+.groove-form-panel,
+.groove-info-card,
+.groove-highlight-card,
+.groove-empty-card,
+.groove-ticket-card,
+.groove-stat-card {
+    background:
+        radial-gradient(rgba(36, 29, 25, 0.05) 1px, transparent 1px),
+        var(--groove-card);
+    background-size: 18px 18px;
+    border: 2px solid var(--groove-ink);
+    box-shadow: 3px 3px 0 var(--groove-ink);
+}
+
+.groove-paper-card,
+.groove-table-card,
+.groove-form-panel,
+.groove-info-card,
+.groove-highlight-card,
+.groove-empty-card,
+.groove-ticket-card {
+    padding: 1.15rem;
+}
+
+.groove-paper-card:nth-child(odd),
+.groove-ticket-card:nth-child(odd),
+.groove-stat-card:nth-child(odd) {
+    transform: rotate(-0.35deg);
+}
+
+.groove-paper-card:nth-child(even),
+.groove-ticket-card:nth-child(even),
+.groove-stat-card:nth-child(even) {
+    transform: rotate(0.35deg);
+}
+
+.groove-highlight-card {
+    background:
+        linear-gradient(180deg, rgba(44, 141, 137, 0.06), rgba(44, 141, 137, 0.06)),
+        radial-gradient(rgba(36, 29, 25, 0.05) 1px, transparent 1px),
+        var(--groove-card);
+    background-size: auto, 18px 18px, auto;
+}
+
+.groove-empty-card {
+    text-align: center;
+    padding: 2.5rem 1.25rem;
+}
+
+.groove-empty-card i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--groove-ink);
+    background: var(--groove-yellow);
+    box-shadow: 3px 3px 0 var(--groove-ink);
+    font-size: 1.6rem;
+}
+
+.groove-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.groove-stat-card {
+    padding: 1rem;
+    text-align: center;
+}
+
+.groove-stat-card p,
+.groove-stat-card span,
+.groove-kicker,
+.groove-mini-meta,
+.groove-data-list dt,
+.groove-table-card th,
+.groove-badge,
+.groove-ticket-meta,
+.groove-form-panel .form-label,
+.groove-form-panel .form-check-label,
+.groove-list-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.groove-kicker {
+    color: var(--groove-red);
+}
+
+.groove-stat-card strong {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--groove-ink);
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.groove-page-section {
+    margin-top: 2rem;
+}
+
+.groove-section-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.groove-section-bar h2 {
+    margin-top: 0.65rem;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+}
+
+.groove-table-card {
+    overflow: hidden;
+    padding: 0;
+}
+
+.groove-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1rem 1rem 0;
+}
+
+.groove-table-wrap {
+    overflow-x: auto;
+}
+
+.groove-table-card table {
+    width: 100%;
+    margin: 0;
+    color: var(--groove-ink);
+}
+
+.groove-table-card thead th {
+    border-bottom-width: 2px;
+    background: rgba(44, 141, 137, 0.1);
+    color: var(--groove-ink);
+    white-space: nowrap;
+}
+
+.groove-table-card th,
+.groove-table-card td {
+    padding: 0.9rem 1rem;
+    border-color: rgba(36, 29, 25, 0.14);
+    vertical-align: middle;
+}
+
+.groove-table-card tbody tr:hover {
+    background: rgba(242, 201, 76, 0.12);
+}
+
+.groove-table-card td small,
+.groove-table-card .text-muted {
+    color: var(--groove-muted) !important;
+}
+
+.groove-badge,
+.groove-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 2px solid var(--groove-ink);
+    padding: 0.24rem 0.55rem;
+    box-shadow: 2px 2px 0 var(--groove-ink);
+}
+
+.groove-badge {
+    background: var(--groove-paper);
+    color: var(--groove-ink);
+}
+
+.groove-status-badge {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.groove-status-badge-success {
+    background: var(--groove-teal);
+    color: #fff;
+}
+
+.groove-status-badge-warning {
+    background: var(--groove-yellow);
+    color: var(--groove-ink);
+}
+
+.groove-status-badge-danger {
+    background: var(--groove-red);
+    color: #fff;
+}
+
+.groove-status-badge-muted {
+    background: rgba(36, 29, 25, 0.12);
+    color: var(--groove-ink);
+}
+
+.groove-utility-list {
+    gap: 0.5rem;
+}
+
+.groove-data-list {
+    display: grid;
+    grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
+    gap: 0.45rem 1rem;
+    margin: 0;
+}
+
+.groove-data-list dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.groove-inline-icon {
+    color: var(--groove-red);
+}
+
+.groove-list-stack {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.groove-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+    padding: 0.95rem 0;
+    border-top: 2px dashed rgba(36, 29, 25, 0.18);
+}
+
+.groove-list-item:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.groove-list-item:last-child {
+    padding-bottom: 0;
+}
+
+.groove-list-item h3,
+.groove-ticket-card h3 {
+    margin: 0;
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.groove-list-item p,
+.groove-ticket-card p {
+    margin: 0.35rem 0 0;
+    color: var(--groove-muted);
+}
+
+.groove-list-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.groove-form-shell {
+    max-width: 860px;
+}
+
+.groove-form-shell-narrow {
+    max-width: 720px;
+}
+
+.groove-form-panel {
+    padding: clamp(1rem, 2vw, 1.4rem);
+}
+
+.groove-form-panel .form-control,
+.groove-form-panel .form-select,
+.groove-form-panel textarea {
+    border: 2px solid var(--groove-ink);
+    border-radius: 0;
+    background: var(--groove-paper);
+    color: var(--groove-ink);
+    box-shadow: none;
+}
+
+.groove-form-panel .form-control:focus,
+.groove-form-panel .form-select:focus,
+.groove-form-panel textarea:focus {
+    border-color: var(--groove-red);
+    box-shadow: 0 0 0 0.18rem rgba(200, 58, 47, 0.18);
+}
+
+.groove-form-panel .form-check-input {
+    border: 2px solid var(--groove-ink);
+    border-radius: 0;
+}
+
+.groove-form-panel .form-check-input:checked {
+    background-color: var(--groove-teal);
+    border-color: var(--groove-ink);
+}
+
+.groove-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.groove-form-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.groove-form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.groove-note {
+    padding: 0.8rem 0.9rem;
+    background: rgba(242, 201, 76, 0.18);
+    border-left: 4px solid var(--groove-red);
+    color: var(--groove-ink);
+}
+
+.groove-note strong {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.groove-ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.groove-ticket-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.groove-ticket-meta {
+    color: var(--groove-muted);
+}
+
+.groove-ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+    border-top: 2px dashed rgba(36, 29, 25, 0.2);
+}
+
+.groove-price {
+    color: var(--groove-red);
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+
+.groove-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    gap: 1.25rem;
+}
+
+.groove-qr-card {
+    text-align: center;
+}
+
+.groove-qr-card img {
+    max-width: 240px;
+    border: 2px solid var(--groove-ink);
+    box-shadow: 3px 3px 0 var(--groove-ink);
+    background: #fff;
+    padding: 0.35rem;
+}
+
+.groove-code {
+    display: inline-block;
+    margin-top: 0.8rem;
+    padding: 0.45rem 0.6rem;
+    border: 2px solid var(--groove-ink);
+    background: var(--groove-paper);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+}
+
+.groove-alert {
+    padding: 1rem 1.1rem;
+    border: 2px solid var(--groove-ink);
+    box-shadow: 3px 3px 0 var(--groove-ink);
+}
+
+.groove-alert-success {
+    background: rgba(44, 141, 137, 0.15);
+}
+
+.groove-alert-warning {
+    background: rgba(242, 201, 76, 0.22);
+}
+
+.groove-alert-danger {
+    background: rgba(200, 58, 47, 0.12);
+}
+
+.groove-alert-info {
+    background: rgba(15, 118, 110, 0.11);
+}
+
+.groove-avatar {
+    width: 4.8rem;
+    height: 4.8rem;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--groove-ink);
+    background: var(--groove-red);
+    box-shadow: 3px 3px 0 var(--groove-ink);
+    color: var(--groove-paper);
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 2rem;
+}
+
+.groove-profile-hero {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem 1.25rem;
+    align-items: center;
+}
+
+.groove-profile-hero h1 {
+    margin: 0.3rem 0 0;
+}
+
+.groove-profile-hero p {
+    margin: 0.5rem 0 0;
+}
+
+.groove-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1rem;
+}
+
+.groove-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+}
+
+.groove-mini-card {
+    padding: 1rem;
+    border: 2px solid var(--groove-ink);
+    background: rgba(243, 236, 223, 0.76);
+}
+
+.groove-mini-card h3 {
+    margin: 0 0 0.45rem;
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+}
+
+.groove-mini-card p {
+    margin: 0;
+    color: var(--groove-muted);
+}
+
+@media (max-width: 991.98px) {
+    .groove-page-grid-2,
+    .groove-page-grid-3,
+    .groove-page-grid-4,
+    .groove-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .groove-form-grid,
+    .groove-form-grid-3,
+    .groove-profile-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .groove-profile-hero {
+        justify-items: start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .groove-app-page {
+        padding-top: 1rem;
+    }
+
+    .groove-page-hero {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .groove-page-hero__copy h1,
+    .groove-panel-title {
+        font-size: clamp(2.45rem, 14vw, 3.5rem);
+    }
+
+    .groove-table-card th,
+    .groove-table-card td {
+        padding: 0.75rem;
+    }
+
+    .groove-list-item,
+    .groove-section-bar,
+    .groove-page-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .groove-list-actions,
+    .groove-form-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .groove-list-actions > *,
+    .groove-form-actions > *,
+    .groove-page-actions > *,
+    .groove-inline-actions > * {
+        width: 100%;
+    }
+}

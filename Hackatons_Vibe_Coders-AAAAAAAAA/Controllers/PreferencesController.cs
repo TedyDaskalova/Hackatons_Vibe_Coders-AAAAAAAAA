@@ -83,7 +83,7 @@ namespace EventsApp.Controllers
             }
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Preferences saved.";
+            TempData["StatusMessage"] = "Предпочитанията са запазени.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -98,7 +98,7 @@ namespace EventsApp.Controllers
                 _db.UserPreferences.Remove(prefs);
                 await _db.SaveChangesAsync();
             }
-            TempData["StatusMessage"] = "Preferences cleared.";
+            TempData["StatusMessage"] = "Предпочитанията са изчистени.";
             return RedirectToAction(nameof(Index));
         }
     }

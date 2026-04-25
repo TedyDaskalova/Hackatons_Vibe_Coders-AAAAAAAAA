@@ -7,20 +7,21 @@ namespace EventsApp.ViewModels.Account
     {
         [Required]
         [StringLength(GlobalConstants.User.UserNameMaxLength, MinimumLength = GlobalConstants.User.UserNameMinLength)]
-        [RegularExpression(@"^[A-Za-z0-9._]+$", ErrorMessage = "Username may contain only letters, numbers, dots, and underscores.")]
-        [Display(Name = "Username")]
+        [RegularExpression(@"^[A-Za-z0-9._]+$", ErrorMessage = "Потребителското име може да съдържа само букви, цифри, точки и долни черти.")]
+        [Display(Name = "Потребителско име")]
         public string UserName { get; set; } = null!;
 
         [Required]
         [EmailAddress]
+        [Display(Name = "Имейл")]
         public string Email { get; set; } = null!;
 
         [StringLength(GlobalConstants.User.FirstNameMaxLength)]
-        [Display(Name = "First name")]
+        [Display(Name = "Име")]
         public string? FirstName { get; set; }
 
         [StringLength(GlobalConstants.User.LastNameMaxLength)]
-        [Display(Name = "Last name")]
+        [Display(Name = "Фамилия")]
         public string? LastName { get; set; }
 
     }

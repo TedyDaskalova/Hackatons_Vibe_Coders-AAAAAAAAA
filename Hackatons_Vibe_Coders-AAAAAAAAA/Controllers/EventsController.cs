@@ -120,7 +120,7 @@ namespace EventsApp.Controllers
 
             if (input.EndTime <= input.StartTime)
             {
-                ModelState.AddModelError(nameof(input.EndTime), "End time must be after start time.");
+                ModelState.AddModelError(nameof(input.EndTime), "Краят трябва да е след началото.");
             }
 
             if (!ModelState.IsValid)
@@ -146,7 +146,7 @@ namespace EventsApp.Controllers
             _db.Events.Add(ev);
             await _db.SaveChangesAsync();
 
-            TempData["StatusMessage"] = "Event created.";
+            TempData["StatusMessage"] = "Събитието е създадено.";
             return RedirectToAction(nameof(Details), new { id = ev.Id });
         }
 
@@ -205,7 +205,7 @@ namespace EventsApp.Controllers
 
             if (input.EndTime <= input.StartTime)
             {
-                ModelState.AddModelError(nameof(input.EndTime), "End time must be after start time.");
+                ModelState.AddModelError(nameof(input.EndTime), "Краят трябва да е след началото.");
             }
 
             if (!ModelState.IsValid)
@@ -228,7 +228,7 @@ namespace EventsApp.Controllers
             }
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Event updated.";
+            TempData["StatusMessage"] = "Събитието е обновено.";
             return RedirectToAction(nameof(Details), new { id = ev.Id });
         }
 
@@ -275,7 +275,7 @@ namespace EventsApp.Controllers
 
             _db.Events.Remove(ev);
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Event deleted.";
+            TempData["StatusMessage"] = "Събитието е изтрито.";
             return RedirectToAction("Index", "Home");
         }
 
@@ -324,7 +324,7 @@ namespace EventsApp.Controllers
         {
             if (string.IsNullOrWhiteSpace(content))
             {
-                TempData["StatusMessage"] = "Comment cannot be empty.";
+                TempData["StatusMessage"] = "Коментарът не може да е празен.";
                 return RedirectToAction(nameof(Details), new { id });
             }
 

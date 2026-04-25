@@ -11,15 +11,16 @@ namespace EventsApp.ViewModels.Posts
 
         [Required]
         [StringLength(GlobalConstants.Post.ContentMaxLength, MinimumLength = GlobalConstants.Post.ContentMinLength)]
+        [Display(Name = "Съдържание")]
         public string Content { get; set; } = null!;
 
-        [Display(Name = "Event (optional)")]
+        [Display(Name = "Свързано събитие (по избор)")]
         public int? EventId { get; set; }
 
-        [Display(Name = "Photo or video")]
+        [Display(Name = "Снимка или видео")]
         public IFormFile? MediaFile { get; set; }
 
-        [Display(Name = "Or image URL")]
+        [Display(Name = "Или URL на изображение")]
         [StringLength(GlobalConstants.Post.ImageUrlMaxLength)]
         public string? ImageUrl { get; set; }
 

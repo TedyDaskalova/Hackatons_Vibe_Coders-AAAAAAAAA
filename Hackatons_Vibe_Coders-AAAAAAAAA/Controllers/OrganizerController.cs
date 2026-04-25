@@ -177,7 +177,7 @@ namespace EventsApp.Controllers
             }
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Profile saved.";
+            TempData["StatusMessage"] = "Профилът е запазен.";
             return RedirectToAction(nameof(Dashboard));
         }
     }

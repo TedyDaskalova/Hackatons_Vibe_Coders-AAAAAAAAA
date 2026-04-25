@@ -7,7 +7,7 @@ namespace EventsApp.ViewModels.Tickets
     {
         [Required]
         [StringLength(GlobalConstants.Ticket.QrCodeMaxLength)]
-        [Display(Name = "QR code")]
+        [Display(Name = "QR код")]
         public string QrCode { get; set; } = null!;
     }
 

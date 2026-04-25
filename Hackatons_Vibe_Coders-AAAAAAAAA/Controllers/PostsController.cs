@@ -150,7 +150,7 @@ namespace EventsApp.Controllers
                 await _db.SaveChangesAsync();
             }
 
-            TempData["StatusMessage"] = "Post created.";
+            TempData["StatusMessage"] = "Публикацията е създадена.";
             return RedirectToAction(nameof(Details), new { id = post.Id });
         }
 
@@ -225,7 +225,7 @@ namespace EventsApp.Controllers
             }
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Post updated.";
+            TempData["StatusMessage"] = "Публикацията е обновена.";
             return RedirectToAction(nameof(Details), new { id = post.Id });
         }
 
@@ -256,7 +256,7 @@ namespace EventsApp.Controllers
 
             _db.Posts.Remove(post);
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Post deleted.";
+            TempData["StatusMessage"] = "Публикацията е изтрита.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -297,7 +297,7 @@ namespace EventsApp.Controllers
         {
             if (string.IsNullOrWhiteSpace(content))
             {
-                TempData["StatusMessage"] = "Comment cannot be empty.";
+                TempData["StatusMessage"] = "Коментарът не може да е празен.";
                 return RedirectToAction(nameof(Details), new { id });
             }
 

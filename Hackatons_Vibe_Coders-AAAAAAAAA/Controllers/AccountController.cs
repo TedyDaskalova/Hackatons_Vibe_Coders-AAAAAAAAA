@@ -112,13 +112,13 @@ namespace EventsApp.Controllers
             var existingByName = await _userManager.FindByNameAsync(input.UserName);
             if (existingByName != null && existingByName.Id != user.Id)
             {
-                ModelState.AddModelError(nameof(input.UserName), "This username is already taken.");
+                ModelState.AddModelError(nameof(input.UserName), "Това потребителско име вече е заето.");
             }
 
             var existingByEmail = await _userManager.FindByEmailAsync(input.Email);
             if (existingByEmail != null && existingByEmail.Id != user.Id)
             {
-                ModelState.AddModelError(nameof(input.Email), "An account with this email already exists.");
+                ModelState.AddModelError(nameof(input.Email), "Вече съществува акаунт с този имейл.");
             }
 
             if (!ModelState.IsValid) return View(input);
@@ -148,7 +148,7 @@ namespace EventsApp.Controllers
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            TempData["StatusMessage"] = "Profile updated.";
+            TempData["StatusMessage"] = "Профилът е обновен.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -160,7 +160,7 @@ namespace EventsApp.Controllers
             // Вече е кандидатствал или вече е организатор
             if (await _db.OrganizerData.AnyAsync(o => o.OrganizerId == userId))
             {
-                TempData["StatusMessage"] = "You have already submitted an application.";
+                TempData["StatusMessage"] = "Вече имаш подадена кандидатура.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -177,7 +177,7 @@ namespace EventsApp.Controllers
 
             if (await _db.OrganizerData.AnyAsync(o => o.OrganizerId == userId))
             {
-                TempData["StatusMessage"] = "You have already submitted an application.";
+                TempData["StatusMessage"] = "Вече имаш подадена кандидатура.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -193,7 +193,7 @@ namespace EventsApp.Controllers
             });
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Application submitted! An admin will review it shortly.";
+            TempData["StatusMessage"] = "Кандидатурата е подадена. Администратор ще я прегледа скоро.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -235,7 +235,7 @@ namespace EventsApp.Controllers
             orgData.CompanyNumber = input.CompanyNumber;
 
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Application updated.";
+            TempData["StatusMessage"] = "Кандидатурата е обновена.";
             return RedirectToAction(nameof(Index));
         }
 

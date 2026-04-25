@@ -1,30 +1,30 @@
 @model IReadOnlyList<PostCardViewModel>
 @{
-    ViewData["Title"] = "Feed";
+    ViewData["Title"] = "Поток";
     var hasRealPosts = Model.Count > 0;
     var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
     var isSignedIn = User.Identity?.IsAuthenticated == true;
     var demoPosts = new[]
     {
-        new { Id = "feed-nadia-electric", Who = "Nadia K.", Role = "organizer", When = "2h", Text = "Doors at 21:30 sharp tomorrow. Bring something to trade - we are starting a tape swap corner.", Likes = 42, Comments = new[] { new { Name = "Ivana P.", Text = "Saving a cassette for the swap." }, new { Name = "Marina Diaries", Text = "We need this corner at every show." }, new { Name = "Ruse Underground", Text = "Trade table approved." } } },
-        new { Id = "feed-field-notes", Who = "Field Notes", Role = "organizer", When = "5h", Text = "Weather forecast says clear skies. Acid Picnic is on. Bring a blanket, water and your softest afternoon mood.", Likes = 77, Comments = new[] { new { Name = "Bobi", Text = "Packing the portable speaker." }, new { Name = "Nadia K.", Text = "Afternoon techno is undefeated." } } },
-        new { Id = "feed-marina-dawn", Who = "Marina Diaries", Role = "listener", When = "yesterday", Text = "Sunrise Folk on the Pier was unreal. Came back with sand in my shoes and a new favorite duo.", Likes = 118, Comments = new[] { new { Name = "Old Pier Crew", Text = "You made our morning." }, new { Name = "Ivana P.", Text = "That second song stayed with me all day." }, new { Name = "Nadia K.", Text = "Booking them for Sofia next." } } },
-        new { Id = "feed-plovdiv-echo", Who = "Plovdiv Echo Club", Role = "organizer", When = "2d", Text = "Last 12 tickets for Concrete Resonance. After that it is door list only.", Likes = 64, Comments = new[] { new { Name = "Field Notes", Text = "See you in Tobacco City." }, new { Name = "Ruse Underground", Text = "Save one poster for us." } } },
-        new { Id = "feed-bobi-tape-warm", Who = "Bobi & friends", Role = "organizer", When = "2d", Text = "Cassette decks only. Someone brought a 1986 Maxell that had not been played in years. We dimmed the lights and the whole room held its breath.", Likes = 91, Comments = new[] { new { Name = "Nadia K.", Text = "This was the warmest room in Sofia." }, new { Name = "Ivana P.", Text = "I want the track list." }, new { Name = "Marina Diaries", Text = "Tape night by the sea next?" } } },
+        new { Id = "feed-nadia-electric", Who = "Надя К.", Role = "организатор", When = "преди 2 ч.", Text = "Вратите утре отварят точно в 21:30. Носете нещо за размяна - стартираме маса за касети още от входа.", Likes = 42, Comments = new[] { new { Name = "Ивана П.", Text = "Пазя една касета специално за размяната." }, new { Name = "Марина Дневници", Text = "Такъв ъгъл трябва да има на всяко събитие." }, new { Name = "Русе Ъндърграунд", Text = "Масата за размяна е одобрена." } } },
+        new { Id = "feed-field-notes", Who = "Field Notes", Role = "организатор", When = "преди 5 ч.", Text = "Прогнозата е за ясно време. Acid Picnic остава. Носете одеяло, вода и най-спокойното си следобедно настроение.", Likes = 77, Comments = new[] { new { Name = "Боби", Text = "Приготвям преносимата колона." }, new { Name = "Надя К.", Text = "Следобедното техно е ненадминато." } } },
+        new { Id = "feed-marina-dawn", Who = "Марина Дневници", Role = "слушател", When = "вчера", Text = "Изгревният фолк на кея беше нереален. Прибрах се с пясък в обувките и нов любим дует.", Likes = 118, Comments = new[] { new { Name = "Old Pier Crew", Text = "Направихте сутринта ни по-хубава." }, new { Name = "Ивана П.", Text = "Втората песен ми остана в главата цял ден." }, new { Name = "Надя К.", Text = "Следващата спирка е София." } } },
+        new { Id = "feed-plovdiv-echo", Who = "Plovdiv Echo Club", Role = "организатор", When = "преди 2 дни", Text = "Последните 12 билета за Concrete Resonance са онлайн. След това оставаме само с входен списък.", Likes = 64, Comments = new[] { new { Name = "Field Notes", Text = "Ще се видим в Тютюневия град." }, new { Name = "Русе Ъндърграунд", Text = "Запазете един плакат за нас." } } },
+        new { Id = "feed-bobi-tape-warm", Who = "Боби и приятели", Role = "организатор", When = "преди 2 дни", Text = "Само касетофони. Някой донесе Maxell от 1986-а, която не беше свирила от години. Намалихме светлините и цялата стая задържа дъх.", Likes = 91, Comments = new[] { new { Name = "Надя К.", Text = "Това беше най-топлата стая в София." }, new { Name = "Ивана П.", Text = "Искам траклиста." }, new { Name = "Марина Дневници", Text = "Следващия път касетна вечер край морето?" } } },
     };
 }
 
 <section class="groove-feed-page">
     <div class="groove-feed-hero">
         <div>
-            <span class="groove-stamp groove-stamp-teal">The Wire</span>
-            <h1>The <span>live</span> feed.</h1>
-            <p>What organizers and listeners are saying right now. Chronological, readable, and ready for real posts when they exist.</p>
+            <span class="groove-stamp groove-stamp-teal">Потокът</span>
+            <h1>Живият <span>дневник</span>.</h1>
+            <p>Какво казват организаторите и слушателите точно сега. Подредено, четимо и готово за реалните публикации.</p>
         </div>
         @if (User.IsInRole(GlobalConstants.Roles.Organizer) || User.IsInRole(GlobalConstants.Roles.Admin))
         {
             <a asp-action="Create" class="groove-button groove-button-dark">
-                <i class="bi bi-plus-lg"></i> New post
+                <i class="bi bi-plus-lg"></i> Нова публикация
             </a>
         }
     </div>
@@ -64,7 +64,7 @@
                     </button>
                 </footer>
                 <div id="@(post.Id + "-comments")" class="groove-comments-panel" hidden>
-                    <p class="groove-comments-title">Comments</p>
+                    <p class="groove-comments-title">Коментари</p>
                     @foreach (var comment in post.Comments)
                     {
                         <div class="groove-comment">
@@ -82,8 +82,8 @@
         <div class="groove-real-feed">
             <div class="groove-section-heading">
                 <div>
-                    <span class="groove-stamp groove-stamp-red">Real posts</span>
-                    <h2>From the database.</h2>
+                    <span class="groove-stamp groove-stamp-red">Реални публикации</span>
+                    <h2>От <span>базата</span>.</h2>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">

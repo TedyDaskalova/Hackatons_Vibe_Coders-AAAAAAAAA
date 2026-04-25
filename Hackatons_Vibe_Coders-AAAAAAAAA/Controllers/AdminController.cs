@@ -104,7 +104,7 @@ namespace EventsApp.Controllers
                 if (!await _userManager.IsInRoleAsync(user, GlobalConstants.Roles.Organizer))
                     await _userManager.AddToRoleAsync(user, GlobalConstants.Roles.Organizer);
 
-                TempData["StatusMessage"] = $"{user.UserName} approved as Organizer.";
+                TempData["StatusMessage"] = $"{user.UserName} е одобрен като организатор.";
             }
             else
             {
@@ -114,7 +114,7 @@ namespace EventsApp.Controllers
                 if (!await _userManager.IsInRoleAsync(user, GlobalConstants.Roles.User))
                     await _userManager.AddToRoleAsync(user, GlobalConstants.Roles.User);
 
-                TempData["StatusMessage"] = $"{user.UserName} reverted to User.";
+                TempData["StatusMessage"] = $"{user.UserName} е върнат към роля Потребител.";
             }
 
             return RedirectToAction(nameof(Organizers));
@@ -158,7 +158,7 @@ namespace EventsApp.Controllers
 
             ev.IsApproved = !ev.IsApproved;
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = ev.IsApproved ? "Event approved." : "Event unapproved.";
+            TempData["StatusMessage"] = ev.IsApproved ? "Събитието е одобрено." : "Одобрението на събитието е премахнато.";
             return RedirectToAction(nameof(Events));
         }
 
@@ -195,7 +195,7 @@ namespace EventsApp.Controllers
 
             _db.Posts.Remove(post);
             await _db.SaveChangesAsync();
-            TempData["StatusMessage"] = "Post deleted.";
+            TempData["StatusMessage"] = "Публикацията е изтрита.";
             return RedirectToAction(nameof(Posts));
         }
 
@@ -236,7 +236,7 @@ namespace EventsApp.Controllers
             var validRoles = new[] { GlobalConstants.Roles.User, GlobalConstants.Roles.Organizer, GlobalConstants.Roles.Admin };
             if (!validRoles.Contains(input.Role))
             {
-                ModelState.AddModelError(nameof(input.Role), "Invalid role.");
+                ModelState.AddModelError(nameof(input.Role), "Невалидна роля.");
             }
 
             input.UserName = (input.UserName ?? string.Empty).Trim();
@@ -250,13 +250,13 @@ namespace EventsApp.Controllers
             var existingByName = await _userManager.FindByNameAsync(input.UserName);
             if (existingByName != null && existingByName.Id != user.Id)
             {
-                ModelState.AddModelError(nameof(input.UserName), "This username is already taken.");
+                ModelState.AddModelError(nameof(input.UserName), "Това потребителско име вече е заето.");
             }
 
             var existingByEmail = await _userManager.FindByEmailAsync(input.Email);
             if (existingByEmail != null && existingByEmail.Id != user.Id)
             {
-                ModelState.AddModelError(nameof(input.Email), "An account with this email already exists.");
+                ModelState.AddModelError(nameof(input.Email), "Вече съществува акаунт с този имейл.");
             }
 
             if (!ModelState.IsValid) return View(input);
@@ -292,7 +292,7 @@ namespace EventsApp.Controllers
                 return View(input);
             }
 
-            TempData["StatusMessage"] = $"{user.UserName} updated.";
+            TempData["StatusMessage"] = $"{user.UserName} е обновен.";
             return RedirectToAction(nameof(Users));
         }
 
@@ -377,11 +377,11 @@ namespace EventsApp.Controllers
             if (!result.Succeeded)
             {
                 AddIdentityErrors(result);
-                TempData["StatusMessage"] = "Role could not be changed.";
+                TempData["StatusMessage"] = "Ролята не можа да бъде променена.";
                 return RedirectToAction(nameof(Users));
             }
 
-            TempData["StatusMessage"] = $"{user.UserName} is now {role}.";
+            TempData["StatusMessage"] = $"{user.UserName} вече е с роля {role.ToRoleDisplay()}.";
             return RedirectToAction(nameof(Users));
         }
 
