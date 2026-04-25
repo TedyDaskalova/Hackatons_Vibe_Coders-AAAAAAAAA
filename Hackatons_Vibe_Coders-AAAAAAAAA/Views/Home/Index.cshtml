@@ -1,0 +1,364 @@
+@model EventsIndexViewModel
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Начало";
+    var hasRealEvents = Model.Events.Count > 0;
+    var hasRealMapPins = Model.MapMarkers.Count > 0;
+
+    var demoPins = new[]
+    {
+        new { Number = 1, Title = "Полунощен брас в Студио 5", Organizer = "Надя К.", Venue = "Студио 5", City = "София", Date = "Пт 02 май", Time = "22:00", Count = 1, Blurb = "Шесторен брас състав, който превръща стандартите в нещо разтопено.", Lat = 42.6977, Lng = 23.3219, IsDemo = true },
+        new { Number = 2, Title = "Tape Hiss // Lo-fi нощ", Organizer = "Боби и приятели", Venue = "Гараж 47", City = "София", Date = "Сб 03 май", Time = "21:00", Count = 1, Blurb = "Само касетни диджеи, ръчно щампани плакати, носи си касета.", Lat = 42.6850, Lng = 23.3300, IsDemo = true },
+        new { Number = 3, Title = "Изгревен фолк на кея", Organizer = "Дневниците на Марина", Venue = "Старият кей", City = "Варна", Date = "Нд 04 май", Time = "06:30", Count = 1, Blurb = "Акустични сетове, докато слънцето изгрява над Черно море.", Lat = 43.2046, Lng = 27.9189, IsDemo = true },
+        new { Number = 4, Title = "Бетонен резонанс", Organizer = "Plovdiv Echo Club", Venue = "Тютюневият град", City = "Пловдив", Date = "Сб 10 май", Time = "20:00", Count = 1, Blurb = "Модулни синтезатори срещат пост-рок китари в стар тютюнев склад.", Lat = 42.1354, Lng = 24.7453, IsDemo = true },
+        new { Number = 5, Title = "Струни и неща", Organizer = "Бургас Камерен Състав", Venue = "Сцена Морска градина", City = "Бургас", Date = "Нд 11 май", Time = "19:00", Count = 1, Blurb = "Камерен квартет преосмисля балкански фолклорни песни в златния час.", Lat = 42.5048, Lng = 27.4626, IsDemo = true },
+        new { Number = 6, Title = "Boom Bap мазе", Organizer = "Русе Ъндърграунд", Venue = "Мазето", City = "Русе", Date = "Пт 16 май", Time = "23:00", Count = 1, Blurb = "Open mic, три грамофона, нула претенции.", Lat = 43.8564, Lng = 25.9657, IsDemo = true },
+    }.ToList();
+
+    var mapPins = hasRealMapPins
+        ? Model.MapMarkers.Select((m, index) => new
+        {
+            Number = index + 1,
+            Title = $"{m.City} събития",
+            Organizer = "GrooveOn",
+            Venue = m.City,
+            City = m.City,
+            Date = "На живо",
+            Time = "Сега",
+            Count = m.EventCount,
+            Blurb = $"{m.EventCount} {(m.EventCount == 1 ? "събитие" : "събития")} в {m.City}.",
+            Lat = m.Lat,
+            Lng = m.Lng,
+            IsDemo = false,
+        }).ToList()
+        : demoPins;
+
+    var mapPinsJson = JsonSerializer.Serialize(mapPins);
+    var visibleCityCount = mapPins.Select(p => p.City).Distinct().Count();
+
+    var demoEvents = new[]
+    {
+        new { Title = "Полунощен брас в Студио 5", Organizer = "Надя К.", Place = "Студио 5, София", Date = "Пт 02 май", Genre = "Джаз", Price = "18 лв.", Blurb = "Късна брас вечер с ръчно правени плакати и звук от малка зала." },
+        new { Title = "Бетонен резонанс", Organizer = "Plovdiv Echo Club", Place = "Тютюневият град, Пловдив", Date = "Сб 10 май", Genre = "Електронна", Price = "22 лв.", Blurb = "Модулни синтезатори срещат пост-рок китари в стар тютюнев склад." },
+        new { Title = "Изгревен фолк на кея", Organizer = "Дневниците на Марина", Place = "Старият кей, Варна", Date = "Нд 04 май", Genre = "Фолк", Price = "Безплатно", Blurb = "Акустични сетове, докато слънцето изгрява над Черно море." },
+    };
+
+    var diaryEntries = new[]
+    {
+        new { Anchor = "feed-nadia-electric", CommentsAnchor = "home-nadia-electric-comments", Author = "Надя К.", Venue = "Студио 5, София", Date = "2026-04-14", Mood = "електрично", Text = "Шест тромпета и един малък барабан. Стаята се сви още на третата песен; непознати тананикаха в унисон. Пускаме билетите за бис утре.", Likes = 48, Comments = new[] { new { Name = "Ивана П.", Text = "Пазя касета за размяната." }, new { Name = "Дневниците на Марина", Text = "Този ъгъл трябва да го има на всяка вечер." }, new { Name = "Русе Ъндърграунд", Text = "Масата за размяна е одобрена." } } },
+        new { Anchor = "feed-bobi-tape-warm", CommentsAnchor = "home-bobi-tape-warm-comments", Author = "Боби и приятели", Venue = "Гараж 47, София", Date = "2026-04-12", Mood = "касетно", Text = "Само касетофони. Някой донесе Maxell от 1986-та, която не беше свирила от години. Намалихме светлините и цялата стая затаи дъх.", Likes = 91, Comments = new[] { new { Name = "Надя К.", Text = "Това беше най-топлата стая в София." }, new { Name = "Ивана П.", Text = "Искам траклиста." }, new { Name = "Дневниците на Марина", Text = "Касетна вечер край морето следваща?" } } },
+        new { Anchor = "feed-marina-dawn", CommentsAnchor = "home-marina-dawn-comments", Author = "Дневниците на Марина", Venue = "Старият кей, Варна", Date = "2026-04-09", Mood = "изгрев", Text = "Започнахме в 06:30 с осем души. На втората песен слънцето изгря и вече бяхме четиридесет. Следващия път - кафе за всички.", Likes = 127, Comments = new[] { new { Name = "Old Pier Crew", Text = "Направихте сутринта ни." }, new { Name = "Ивана П.", Text = "Втората песен остана с мен цял ден." }, new { Name = "Надя К.", Text = "Каня ги в София." } } },
+    };
+
+    var organizerSpotlights = new[]
+    {
+        new { Number = "01", City = "София", Name = "Надя К.", Scene = "Брас / Джаз", Nights = 14, Quote = "Правя нощи, които чуваш, преди да ги намериш." },
+        new { Number = "02", City = "София", Name = "Боби и приятели", Scene = "Lo-fi / Касети", Nights = 9, Quote = "Магнитна лента, мокри мазета, без лаптопи." },
+        new { Number = "03", City = "Варна", Name = "Дневниците на Марина", Scene = "Фолк / На открито", Nights = 22, Quote = "Музиката е по-хубава, когато слънцето изгрява с нея." },
+        new { Number = "04", City = "Пловдив", Name = "Plovdiv Echo Club", Scene = "Модулар / Пост", Nights = 6, Quote = "Бетонните стени са инструмент." },
+    };
+
+    var filterCities = Model.Cities.Count > 0
+        ? Model.Cities
+        : demoEvents.Select(e => e.Place.Split(',').Last().Trim()).Distinct().OrderBy(c => c).ToList();
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        (function () {
+            var pins = @Html.Raw(mapPinsJson);
+            var mapEl = document.getElementById('events-map');
+            if (!mapEl || typeof L === 'undefined') return;
+
+            function escapeHtml(value) {
+                return String(value ?? '')
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            var bulgariaBounds = L.latLngBounds([41.2354, 22.3571], [44.2156, 28.6122]);
+            var map = L.map('events-map', { maxBoundsViscosity: 0.75 }).setView([42.7339, 25.4858], 7);
+            map.setMaxBounds(bulgariaBounds.pad(0.25));
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                minZoom: 6,
+                maxZoom: 12,
+                bounds: bulgariaBounds.pad(0.25),
+                noWrap: true,
+                className: 'groove-map-tiles',
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            if (!pins || !pins.length) return;
+
+            var bounds = [];
+            pins.forEach(function (pin) {
+                var latlng = [pin.Lat, pin.Lng];
+                bounds.push(latlng);
+                var icon = L.divIcon({
+                    className: '',
+                    html: '<div class="groove-map-pin">' + pin.Number + '</div>',
+                    iconSize: [38, 44],
+                    iconAnchor: [19, 22]
+                });
+
+                var eventWord = pin.Count === 1 ? 'събитие' : 'събития';
+                var popup = '<div class="groove-map-popup">' +
+                    '<p class="groove-map-popup__date">' + escapeHtml(pin.Date) + ' / ' + escapeHtml(pin.Time) + '</p>' +
+                    '<strong>' + escapeHtml(pin.Title) + '</strong>' +
+                    '<small>' + escapeHtml(pin.Venue) + ', ' + escapeHtml(pin.City) + '</small>' +
+                    '<p>' + escapeHtml(pin.Blurb) + '</p>' +
+                    '<span>' + pin.Count + ' ' + eventWord + '</span>' +
+                    '</div>';
+
+                L.marker(latlng, { icon: icon }).addTo(map).bindPopup(popup);
+            });
+
+            if (bounds.length > 1) {
+                map.fitBounds(bounds, { padding: [34, 34] });
+            }
+        })();
+    </script>
+}
+
+<div class="groove-home">
+    <div class="groove-marquee" aria-hidden="true">
+        <div>
+            <span>Живи нощи</span><span>Дневник</span><span>Карта на България</span><span>Свежи билети</span>
+        </div>
+    </div>
+
+    <section class="groove-hero">
+        <div class="groove-hero__copy">
+            <div class="groove-stamp-row">
+                <span class="groove-stamp groove-stamp-teal">Пролет 2026</span>
+                <span class="groove-stamp groove-stamp-yellow">Брой 04</span>
+                <span class="groove-hand-note">на живо</span>
+            </div>
+            <h1>Дневник за най-<span>шумните</span> нощи в България.</h1>
+            <p>
+                GrooveOn е част скрапбук, част карта, част бюро за събития. Организаторите движат сцената,
+                слушателите намират точната вечер, а всеки град получава своите карфици.
+            </p>
+            <div class="groove-hero__actions">
+                <a href="#event-map" class="groove-button groove-button-dark">Виж картата</a>
+                <a asp-controller="Posts" asp-action="Index" class="groove-button groove-button-paper">Отвори потока</a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Events" asp-action="Recommended" class="groove-button groove-button-paper">Препоръчани</a>
+                }
+            </div>
+            <div class="groove-stats">
+                <span><strong>@(hasRealEvents ? Model.Events.Count : 128)</strong> записани нощи</span>
+                <span><strong>@visibleCityCount</strong> града</span>
+                <span><strong>@(hasRealMapPins ? "Живи" : "Демо")</strong> данни</span>
+            </div>
+        </div>
+
+        <div class="groove-hero__media">
+            <div class="groove-photo-card">
+                <img src="@Url.Content("~/img/groove/crowd-doodle.png")" alt="Публика на концерт" />
+                <p>"малко мазе, огромна нощ."</p>
+                <small>дневник, 14 март</small>
+            </div>
+            <img class="groove-cassette" src="@Url.Content("~/img/groove/cassette-doodle.png")" alt="" aria-hidden="true" />
+        </div>
+    </section>
+
+    <section id="event-map" class="groove-section groove-map-section">
+        <div class="groove-map-copy">
+            <span class="groove-stamp groove-stamp-teal">Картата</span>
+            <h2>@mapPins.Count карфици, <span>@visibleCityCount града</span>, една хартиена карта.</h2>
+            <p>
+                Карфиците са временни демо данни, когато базата няма събития с координати.
+                Същото място вече е готово за напълно живи детайли.
+            </p>
+        </div>
+        <div class="groove-map-frame">
+            <span class="groove-map-badge groove-map-badge-left">жива карта / @mapPins.Count карфици</span>
+            <span class="groove-map-badge groove-map-badge-right">openstreetmap</span>
+            <div id="events-map"></div>
+        </div>
+    </section>
+
+    <section class="groove-organizers-section">
+        <div class="groove-organizers-shell">
+            <div class="groove-section-heading groove-section-heading-dark">
+                <div class="groove-organizers-copy">
+                    <span class="groove-stamp groove-stamp-yellow">Сътрудници · пролет</span>
+                    <h2>Хората <span>зад</span> шума.</h2>
+                    <p class="groove-section-intro">Организаторите, които държат сцената жива, събират общности по градове, жанрове и малки нощни ритуали.</p>
+                </div>
+                @if (User.IsInRole(GlobalConstants.Roles.Admin) || User.IsInRole(GlobalConstants.Roles.Organizer))
+                {
+                    <a asp-controller="Organizer" asp-action="Dashboard" class="groove-link groove-link-inverse">Организаторски панел</a>
+                }
+                else if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a asp-controller="Account" asp-action="Apply" class="groove-link groove-link-inverse">Стани организатор</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" class="groove-link groove-link-inverse">Стани организатор</a>
+                }
+            </div>
+
+            <div class="groove-organizer-grid">
+                @foreach (var organizer in organizerSpotlights)
+                {
+                    <article class="groove-organizer-card">
+                        <p class="groove-organizer-card__eyebrow">№ @organizer.Number · @organizer.City</p>
+                        <h3>@organizer.Name</h3>
+                        <p class="groove-organizer-card__meta">@organizer.Scene · @organizer.Nights нощи</p>
+                        <p class="groove-organizer-card__quote">"@organizer.Quote"</p>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="groove-section">
+        <div class="groove-section-heading">
+            <div>
+                <span class="groove-stamp groove-stamp-red">Бюро за събития</span>
+                <h2>@(hasRealEvents ? "Събития" : "Примерни събития за първи поглед")</h2>
+            </div>
+            @if (User.IsInRole(GlobalConstants.Roles.Organizer) || User.IsInRole(GlobalConstants.Roles.Admin))
+            {
+                <a asp-controller="Events" asp-action="Create" class="groove-link">Създай събитие</a>
+            }
+        </div>
+
+        <form method="get" class="groove-filter">
+            <input type="text" name="search" value="@Model.Search" placeholder="Търси по заглавие..." />
+            <select name="city">
+                <option value="">Всички градове</option>
+                @foreach (var c in filterCities)
+                {
+                    <option value="@c" selected="@(Model.City == c)">@c</option>
+                }
+            </select>
+            <select name="genre">
+                <option value="">Всички жанрове</option>
+                @foreach (var g in Enum.GetValues<EventGenre>())
+                {
+                    <option value="@((int)g)" selected="@(Model.Genre == g)">@g</option>
+                }
+            </select>
+            <input type="date" name="dateFrom" value="@Model.DateFrom?.ToString("yyyy-MM-dd")" />
+            <button type="submit">Филтър</button>
+            <a asp-action="Index">Изчисти</a>
+        </form>
+
+        @if (hasRealEvents)
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                @foreach (var ev in Model.Events)
+                {
+                    <div class="col"><partial name="_EventCard" model="ev" /></div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="groove-card-grid">
+                @foreach (var ev in demoEvents)
+                {
+                    <article class="groove-event-card">
+                        <div class="groove-event-card__meta">
+                            <span>@ev.Date</span>
+                            <span>@ev.Genre</span>
+                        </div>
+                        <h3>@ev.Title</h3>
+                        <p class="groove-event-card__place"><i class="bi bi-geo-alt"></i> @ev.Place</p>
+                        <p>@ev.Blurb</p>
+                        <footer>
+                            <span>@ev.Organizer</span>
+                            <strong>@ev.Price</strong>
+                        </footer>
+                    </article>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="groove-section">
+        <div class="groove-section-heading">
+            <div>
+                <span class="groove-stamp groove-stamp-red">Дневникът на организаторите</span>
+                <h2>Бележки от <span>миналия уикенд</span>.</h2>
+                <p class="groove-section-intro">Хората, които правят партитата, водят публичен скрапбук. Прочети го, разгърни коментарите и виж какво още зрее за следващата вечер.</p>
+            </div>
+            <a asp-controller="Posts" asp-action="Index" class="groove-link">Отвори целия поток</a>
+        </div>
+        <div class="groove-feed-grid">
+            @foreach (var entry in diaryEntries)
+            {
+                <article class="groove-feed-card">
+                    <p class="groove-feed-card__date">@entry.Date / @entry.Venue</p>
+                    <h3>
+                        <a asp-controller="Posts" asp-action="Index" asp-fragment="@entry.Anchor">
+                            @entry.Author <span>#@entry.Mood</span>
+                        </a>
+                    </h3>
+                    <p>@entry.Text</p>
+                    <footer>
+                        <span><i class="bi bi-heart"></i> @entry.Likes</span>
+                        <button type="button"
+                                class="groove-home-comments-toggle"
+                                data-home-comments-toggle
+                                aria-expanded="false"
+                                aria-controls="@entry.CommentsAnchor">
+                            <i class="bi bi-chat"></i> @entry.Comments.Length
+                        </button>
+                        <a asp-controller="Posts" asp-action="Index" asp-fragment="@entry.Anchor">чети</a>
+                    </footer>
+                    <div id="@entry.CommentsAnchor" class="groove-comments-panel" hidden>
+                        <p class="groove-comments-title">Коментари</p>
+                        @foreach (var comment in entry.Comments)
+                        {
+                            <div class="groove-comment">
+                                <strong>@comment.Name</strong>
+                                <p>@comment.Text</p>
+                            </div>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+</div>
+
+<script>
+    (function () {
+        document.querySelectorAll('[data-home-comments-toggle]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var targetId = button.getAttribute('aria-controls');
+                var panel = targetId ? document.getElementById(targetId) : null;
+                if (!panel) return;
+
+                var isOpen = button.getAttribute('aria-expanded') === 'true';
+                document.querySelectorAll('.groove-feed-card .groove-comments-panel').forEach(function (openPanel) {
+                    if (openPanel !== panel) {
+                        openPanel.hidden = true;
+                    }
+                });
+                document.querySelectorAll('[data-home-comments-toggle]').forEach(function (openButton) {
+                    if (openButton !== button) {
+                        openButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                button.setAttribute('aria-expanded', String(!isOpen));
+                panel.hidden = isOpen;
+            });
+        });
+    })();
+</script>

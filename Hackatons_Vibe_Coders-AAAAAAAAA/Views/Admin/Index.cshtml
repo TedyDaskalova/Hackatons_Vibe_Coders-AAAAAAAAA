@@ -1,0 +1,84 @@
+@model AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Админ панел";
+}
+
+<h1 class="h3 mb-4"><i class="bi bi-shield-check text-warning"></i> Админ панел</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-4">
+        <div class="card border-0 bg-light text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-primary">@Model.UsersCount</div>
+                <div class="text-muted">Потребители</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <div class="card border-0 bg-light text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-primary">@Model.OrganizersCount</div>
+                <div class="text-muted">Организатори</div>
+                @if (Model.PendingOrganizersCount > 0)
+                {
+                    <span class="badge bg-warning text-dark">@Model.PendingOrganizersCount чакащи</span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+        <div class="card border-0 bg-light text-center">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-primary">@Model.EventsCount</div>
+                <div class="text-muted">Събития</div>
+                @if (Model.PendingEventsCount > 0)
+                {
+                    <span class="badge bg-warning text-dark">@Model.PendingEventsCount чакащи</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a asp-action="Organizers" class="btn btn-outline-primary">
+        <i class="bi bi-person-badge"></i> Управление на организатори
+        @if (Model.PendingOrganizersCount > 0)
+        {
+            <span class="badge bg-warning text-dark ms-1">@Model.PendingOrganizersCount</span>
+        }
+    </a>
+    <a asp-action="Events" class="btn btn-outline-primary">
+        <i class="bi bi-calendar2-event"></i> Управление на събития
+        @if (Model.PendingEventsCount > 0)
+        {
+            <span class="badge bg-warning text-dark ms-1">@Model.PendingEventsCount</span>
+        }
+    </a>
+    <a asp-action="Posts" class="btn btn-outline-primary">
+        <i class="bi bi-chat-square-text"></i> Управление на публикации
+    </a>
+    <a asp-action="Users" class="btn btn-outline-secondary">
+        <i class="bi bi-people"></i> Потребители и роли
+    </a>
+    <a asp-action="Tickets" class="btn btn-outline-success">
+        <i class="bi bi-ticket-perforated"></i> Преглед на билети
+    </a>
+    <a asp-action="Transactions" class="btn btn-outline-success">
+        <i class="bi bi-receipt"></i> Транзакции
+    </a>
+    <a asp-controller="Tickets" asp-action="Validate" class="btn btn-outline-success">
+        <i class="bi bi-qr-code-scan"></i> Валидирай билет
+    </a>
+</div>
+
+@if (Model.RecentPosts.Count > 0)
+{
+    <h2 class="h5 mb-3">Последни публикации</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+        @foreach (var post in Model.RecentPosts)
+        {
+            <div class="col"><partial name="_PostCard" model="post" /></div>
+        }
+    </div>
+}

@@ -1,0 +1,72 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section class="auth-zine-page">
+    <div class="auth-zine-shell auth-zine-shell-wide">
+        <div class="auth-zine-copy">
+            <span class="auth-zine-stamp auth-zine-stamp-red">New Subscriber</span>
+            <h1>Start your <span>diary</span>.</h1>
+            <p>Create your GrooveOn account to save nights, buy tickets and follow the organizers you care about.</p>
+        </div>
+
+        <div class="auth-zine-card">
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="auth-zine-form">
+                <div asp-validation-summary="ModelOnly" class="auth-zine-validation" role="alert"></div>
+
+                <div class="auth-zine-grid">
+                    <div class="auth-zine-field">
+                        <label asp-for="Input.FirstName"></label>
+                        <input asp-for="Input.FirstName" autocomplete="given-name" placeholder="Ivana" />
+                        <span asp-validation-for="Input.FirstName"></span>
+                    </div>
+                    <div class="auth-zine-field">
+                        <label asp-for="Input.LastName"></label>
+                        <input asp-for="Input.LastName" autocomplete="family-name" placeholder="Petrova" />
+                        <span asp-validation-for="Input.LastName"></span>
+                    </div>
+                </div>
+
+                <div class="auth-zine-field">
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" autocomplete="username" placeholder="ivana.petrova" />
+                    <span asp-validation-for="Input.UserName"></span>
+                </div>
+
+                <div class="auth-zine-field">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" autocomplete="email" placeholder="you@grooveon.app" />
+                    <span asp-validation-for="Input.Email"></span>
+                </div>
+
+                <div class="auth-zine-grid">
+                    <div class="auth-zine-field">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" autocomplete="new-password" placeholder="at least 5 characters" />
+                        <span asp-validation-for="Input.Password"></span>
+                    </div>
+                    <div class="auth-zine-field">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" autocomplete="new-password" placeholder="repeat password" />
+                        <span asp-validation-for="Input.ConfirmPassword"></span>
+                    </div>
+                </div>
+
+                <button id="registerSubmit" type="submit" class="auth-zine-button auth-zine-button-teal">
+                    <i class="bi bi-person-plus"></i> Create account
+                </button>
+            </form>
+        </div>
+
+        <p class="auth-zine-alt">
+            Already have an account?
+            <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">Log in</a>
+        </p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

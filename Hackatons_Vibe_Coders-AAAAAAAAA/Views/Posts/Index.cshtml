@@ -1,0 +1,162 @@
+@model IReadOnlyList<PostCardViewModel>
+@{
+    ViewData["Title"] = "Feed";
+    var hasRealPosts = Model.Count > 0;
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+    var isSignedIn = User.Identity?.IsAuthenticated == true;
+    var demoPosts = new[]
+    {
+        new { Id = "feed-nadia-electric", Who = "Nadia K.", Role = "organizer", When = "2h", Text = "Doors at 21:30 sharp tomorrow. Bring something to trade - we are starting a tape swap corner.", Likes = 42, Comments = new[] { new { Name = "Ivana P.", Text = "Saving a cassette for the swap." }, new { Name = "Marina Diaries", Text = "We need this corner at every show." }, new { Name = "Ruse Underground", Text = "Trade table approved." } } },
+        new { Id = "feed-field-notes", Who = "Field Notes", Role = "organizer", When = "5h", Text = "Weather forecast says clear skies. Acid Picnic is on. Bring a blanket, water and your softest afternoon mood.", Likes = 77, Comments = new[] { new { Name = "Bobi", Text = "Packing the portable speaker." }, new { Name = "Nadia K.", Text = "Afternoon techno is undefeated." } } },
+        new { Id = "feed-marina-dawn", Who = "Marina Diaries", Role = "listener", When = "yesterday", Text = "Sunrise Folk on the Pier was unreal. Came back with sand in my shoes and a new favorite duo.", Likes = 118, Comments = new[] { new { Name = "Old Pier Crew", Text = "You made our morning." }, new { Name = "Ivana P.", Text = "That second song stayed with me all day." }, new { Name = "Nadia K.", Text = "Booking them for Sofia next." } } },
+        new { Id = "feed-plovdiv-echo", Who = "Plovdiv Echo Club", Role = "organizer", When = "2d", Text = "Last 12 tickets for Concrete Resonance. After that it is door list only.", Likes = 64, Comments = new[] { new { Name = "Field Notes", Text = "See you in Tobacco City." }, new { Name = "Ruse Underground", Text = "Save one poster for us." } } },
+        new { Id = "feed-bobi-tape-warm", Who = "Bobi & friends", Role = "organizer", When = "2d", Text = "Cassette decks only. Someone brought a 1986 Maxell that had not been played in years. We dimmed the lights and the whole room held its breath.", Likes = 91, Comments = new[] { new { Name = "Nadia K.", Text = "This was the warmest room in Sofia." }, new { Name = "Ivana P.", Text = "I want the track list." }, new { Name = "Marina Diaries", Text = "Tape night by the sea next?" } } },
+    };
+}
+
+<section class="groove-feed-page">
+    <div class="groove-feed-hero">
+        <div>
+            <span class="groove-stamp groove-stamp-teal">The Wire</span>
+            <h1>The <span>live</span> feed.</h1>
+            <p>What organizers and listeners are saying right now. Chronological, readable, and ready for real posts when they exist.</p>
+        </div>
+        @if (User.IsInRole(GlobalConstants.Roles.Organizer) || User.IsInRole(GlobalConstants.Roles.Admin))
+        {
+            <a asp-action="Create" class="groove-button groove-button-dark">
+                <i class="bi bi-plus-lg"></i> New post
+            </a>
+        }
+    </div>
+
+    <div class="groove-feed-list">
+        @foreach (var post in demoPosts)
+        {
+            <article id="@post.Id" class="groove-wire-card">
+                <header>
+                    <span class="groove-wire-card__avatar">@post.Who[0]</span>
+                    <div>
+                        <h2>@post.Who</h2>
+                        <p>@post.Role / @post.When</p>
+                    </div>
+                    <i class="bi bi-rss"></i>
+                </header>
+                <p class="groove-wire-card__body">"@post.Text"</p>
+                <footer>
+                    @if (isSignedIn)
+                    {
+                        <button type="button" class="groove-like-toggle" data-like-toggle data-liked="false">
+                            <i class="bi bi-heart"></i> <span>@post.Likes</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@(returnUrl + "#" + post.Id)" class="groove-wire-link">
+                            <i class="bi bi-heart"></i> @post.Likes
+                        </a>
+                    }
+                    <button type="button"
+                            class="groove-comments-toggle"
+                            data-comments-toggle
+                            aria-expanded="false"
+                            aria-controls="@(post.Id + "-comments")">
+                        <i class="bi bi-chat"></i> @post.Comments.Length
+                    </button>
+                </footer>
+                <div id="@(post.Id + "-comments")" class="groove-comments-panel" hidden>
+                    <p class="groove-comments-title">Comments</p>
+                    @foreach (var comment in post.Comments)
+                    {
+                        <div class="groove-comment">
+                            <strong>@comment.Name</strong>
+                            <p>@comment.Text</p>
+                        </div>
+                    }
+                </div>
+            </article>
+        }
+    </div>
+
+    @if (hasRealPosts)
+    {
+        <div class="groove-real-feed">
+            <div class="groove-section-heading">
+                <div>
+                    <span class="groove-stamp groove-stamp-red">Real posts</span>
+                    <h2>From the database.</h2>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                @foreach (var post in Model)
+                {
+                    <div class="col"><partial name="_PostCard" model="post" /></div>
+                }
+            </div>
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        (function () {
+            document.querySelectorAll('[data-comments-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var targetId = button.getAttribute('aria-controls');
+                    var panel = targetId ? document.getElementById(targetId) : null;
+                    if (!panel) return;
+
+                    var isOpen = button.getAttribute('aria-expanded') === 'true';
+                    document.querySelectorAll('.groove-wire-card .groove-comments-panel').forEach(function (openPanel) {
+                        if (openPanel !== panel) {
+                            openPanel.hidden = true;
+                        }
+                    });
+                    document.querySelectorAll('[data-comments-toggle]').forEach(function (openButton) {
+                        if (openButton !== button) {
+                            openButton.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    button.setAttribute('aria-expanded', String(!isOpen));
+                    panel.hidden = isOpen;
+                });
+            });
+
+            document.querySelectorAll('[data-like-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var countEl = button.querySelector('span');
+                    var icon = button.querySelector('i');
+                    var liked = button.getAttribute('data-liked') === 'true';
+                    var count = Number(countEl ? countEl.textContent : '0');
+
+                    button.setAttribute('data-liked', String(!liked));
+                    button.classList.toggle('is-liked', !liked);
+                    if (icon) {
+                        icon.classList.toggle('bi-heart', liked);
+                        icon.classList.toggle('bi-heart-fill', !liked);
+                    }
+                    if (countEl) {
+                        countEl.textContent = String(count + (liked ? -1 : 1));
+                    }
+                });
+            });
+
+            if (window.location.hash) {
+                var target = document.getElementById(window.location.hash.slice(1));
+                if (target && target.classList.contains('groove-comments-panel')) {
+                    document.querySelectorAll('.groove-wire-card .groove-comments-panel').forEach(function (panel) {
+                        if (panel !== target) {
+                            panel.hidden = true;
+                        }
+                    });
+                    target.hidden = false;
+                    var toggle = document.querySelector('[aria-controls="' + target.id + '"]');
+                    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+                    window.setTimeout(function () {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 0);
+                }
+            }
+        })();
+    </script>
+}
